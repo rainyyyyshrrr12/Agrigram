@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Farmer Portal - Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Farmer Government Aided Schemes Portal</h2>
+    <form class="signup-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+
+      <label for="aadhaar">Aadhaar Number</label>
+      <input type="text" id="aadhaar" placeholder="Enter your Aadhaar number" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number" required>
+
+      <label for="email">Email (optional)</label>
+      <input type="email" id="email" placeholder="Enter your email">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Create a password" required>
+
+      <label for="state">State</label>
+      <select id="state" required>
+        <option value="" disabled selected>Select your state</option>
+        <option>Uttar Pradesh</option>
+        <option>Punjab</option>
+        <option>Maharashtra</option>
+        <option>Tamil Nadu</option>
+        <option>Other</option>
+      </select>
+
+       <a href="./main.html" class="auth-link-btn">SignUp</a>
+      <p class="login-link">Already have an account? <a href="./login.html">Login here</a></p>
+    </form>
+  </div>
+</body>
+</html>

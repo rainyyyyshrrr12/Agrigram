@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Approve Scheme Requests</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f9f0;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #2e7d32;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .approve-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .approve-card:hover {
+      background: #e7f8e7;
+      transform: translateY(-3px);
+    }
+
+    .approve-card img {
+      width: 70px;
+    }
+
+    .card-content h2 {
+      font-size: 20px;
+      color: #2e7d32;
+    }
+
+    .badge {
+      background-color: #c62828;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
+    .requests-list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .request-item {
+      background: #fff;
+      margin-bottom: 15px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s ease;
+    }
+
+    .request-item:hover {
+      background: #f1fff1;
+    }
+
+    .request-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .request-actions button {
+      margin-left: 10px;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    .approve-btn {
+      background-color: #388e3c;
+      color: white;
+    }
+
+    .reject-btn {
+      background-color: #e53935;
+      color: white;
+    }
+
+    .approve-btn:hover {
+      background-color: #2e7d32;
+    }
+
+    .reject-btn:hover {
+      background-color: #c62828;
+    }
+
+    .no-requests {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>✅ Approve Scheme Requests</h1>
+
+  <!-- Approve Card -->
+  <div class="approve-card" onclick="toggleRequests()">
+    <img src="https://img.icons8.com/color/96/approval--v1.png" alt="approval">
+    <div class="card-content">
+      <h2>Approve Scheme Requests <span class="badge" id="pending-count">0 Pending</span></h2>
+      <p>Click to view and manage pending applications from farmers.</p>
+    </div>
+  </div>
+
+  <!-- Request List -->
+  <div class="requests-list" id="requestsList" style="display: none;"></div>
+
+  <script>
+    // Fake requests data
+    let requests = [
+      { id: 1, name: "Rajeev Kumar", scheme: "PM-KISAN" },
+      { id: 2, name: "Sunita Devi", scheme: "PMFBY" },
+      { id: 3, name: "Ramesh Verma", scheme: "Soil Health Card" },
+      { id: 4, name: "Rajesh Verma", scheme: "PMKSY" },
+      { id: 6, name: "Vimla Kumari", scheme: "NABARD Subsidy" },
+      { id: 7, name: "Ajay Mohan", scheme: "Soil Health Card" },
+      { id: 8, name: "Anil Kumar", scheme: "e-NAM" }
+    ];
+
+    const listEl = document.getElementById("requestsList");
+    const badgeEl = document.getElementById("pending-count");
+
+    function updateBadge() {
+      badgeEl.textContent = `${requests.length} Pending`;
+    }
+
+    function renderRequests() {
+      listEl.innerHTML = "";
+
+      if (requests.length === 0) {
+        listEl.innerHTML = `<p class="no-requests">🎉 All requests have been handled!</p>`;
+        updateBadge();
+        return;
+      }
+
+      requests.forEach((req) => {
+        const item = document.createElement("div");
+        item.className = "request-item";
+        item.innerHTML = `
+          <div class="request-info">
+            <strong>${req.name}</strong>
+            <span>Applied for: ${req.scheme}</span>
+          </div>
+          <div class="request-actions">
+            <button class="approve-btn" onclick="approve(${req.id})">Approve</button>
+            <button class="reject-btn" onclick="reject(${req.id})">Reject</button>
+          </div>
+        `;
+        listEl.appendChild(item);
+      });
+
+      updateBadge();
+    }
+
+    function approve(id) {
+      requests = requests.filter(req => req.id !== id);
+      renderRequests();
+    }
+
+    function reject(id) {
+      requests = requests.filter(req => req.id !== id);
+      renderRequests();
+    }
+
+    function toggleRequests() {
+      const visible = listEl.style.display === "block";
+      listEl.style.display = visible ? "none" : "block";
+      if (!visible) renderRequests();
+    }
+
+    // Initialize badge count
+    updateBadge();
+  </script>
+
+</body>
+</html>

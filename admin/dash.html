@@ -7,13 +7,135 @@
     <link rel="stylesheet" href="/Agrigram/css/style.css"/>
 </head>
 <body>
-    <div class="admin-dashboard">
-  <h2>Welcome Admin</h2>
-  <div class="dashboard-cards">
-    <a href="/post-crop">🌾 Post Crop Details</a>
-    <a href="/post-schemes">📝 Post Govt Schemes</a>
-    <a href="/approve-requests">✅ Approve Scheme Requests</a>
-  </div>
-</div>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🌾 AgroAdmin</h1>
+            </div>
+            
+            <div class="role-toggle">
+                <button class="active" onclick="switchRole('admin')">Admin</button>
+          
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🌾</span>
+                            Crop Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📋</span>
+                            Schemes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📈</span>
+                            Analytics
+                        </a>
+                    </li>
+                  
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2 id="page-title">Admin Dashboard</h2>
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div style="font-weight: 600;">Admin User</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">Administrator</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-crops">245</div>
+                    <div class="stat-label">Total Crops</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="active-schemes">12</div>
+                    <div class="stat-label">Active Schemes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pending-requests">8</div>
+                    <div class="stat-label">Pending Requests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-users">1,234</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div class="admin-section">
+                <main class="dashboard">
+                    <a href="./crop.html" class="card">
+                        <span class="card-icon">🌾</span>
+                        <div class="card-title">Post Crop Details</div>
+                        <div class="card-description">Add new crop information, varieties, and growing details to the database</div>
+                    </a>
+                    
+                    <a href="./scheme.html" class="card">
+                        <span class="card-icon">📝</span>
+                        <div class="card-title">Post Govt Schemes</div>
+                        <div class="card-description">Create and manage government agricultural schemes and subsidies</div>
+                    </a>
+                    
+                    <a href="./request.html" class="card">
+                        <span class="card-icon">✅</span>
+                        <div class="card-title">Approve Scheme Requests</div>
+                        <div class="card-description">Review and approve farmer applications for government schemes</div>
+                        <span class="pending-badge">8 New</span>
+                    </a>
+                </main>
+            </div>
+
+            <!-- User Dashboard (Hidden by default) -->
+            <div class="user-section">
+                <main class="dashboard">
+                    <a href="/my-crops" class="card">
+                        <span class="card-icon">🌱</span>
+                        <div class="card-title">My Crops</div>
+                        <div class="card-description">View and manage your registered crop details</div>
+                    </a>
+                    
+                    <a href="/available-schemes" class="card">
+                        <span class="card-icon">🎯</span>
+                        <div class="card-title">Available Schemes</div>
+                        <div class="card-description">Browse government schemes you're eligible for</div>
+                    </a>
+                    
+                    <a href="/my-applications" class="card">
+                        <span class="card-icon">📄</span>
+                        <div class="card-title">My Applications</div>
+                        <div class="card-description">Track status of your scheme applications</div>
+                    </a>
+                </main>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Crop Details - AgroAdmin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2e7d32 0%, #81c784 100%);
+
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .nav-link {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link.back {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #ffd93d;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ffd93d;
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group select option {
+            background: #444;
+            color: white;
+        }
+
+        /* Photo Upload Section */
+        .photo-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: white;
+        }
+
+        .photo-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .photo-upload:hover {
+            border-color: #ffd93d;
+            background: rgba(255, 217, 61, 0.1);
+        }
+
+        .photo-upload.dragover {
+            border-color: #ffd93d;
+            background: rgba(255, 217, 61, 0.2);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        #photo-input {
+            display: none;
+        }
+
+        /* Photo Preview */
+        .photo-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-photo {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 107, 107, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sample Crops Gallery */
+        .sample-crops {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .crops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .crop-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .crop-info {
+            padding: 1rem;
+        }
+
+        .crop-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .crop-season {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #45a049, #7cb342);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .crops-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffd93d;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🌾 Post Crop Details</h1>
+            <p>Add comprehensive information about crops including varieties, growing conditions, seasonal requirements, and visual documentation to help farmers make informed decisions.</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-links">
+            <a href="./dash.html" class="nav-link back">← Back to Dashboard</a>
+           
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2 class="section-title">Crop Information</h2>
+                <form id="crop-form">
+                    <div class="form-group">
+                        <label for="crop-name">Crop Name *</label>
+                        <input type="text" id="crop-name" name="cropName" placeholder="e.g., Basmati Rice, Wheat, Cotton" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crop-variety">Variety</label>
+                        <input type="text" id="crop-variety" name="cropVariety" placeholder="e.g., Pusa Basmati 1121, HD-2967">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crop-category">Category *</label>
+                        <select id="crop-category" name="cropCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="cereals">Cereals</option>
+                            <option value="pulses">Pulses</option>
+                            <option value="oilseeds">Oilseeds</option>
+                            <option value="cash-crops">Cash Crops</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="spices">Spices</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="growing-season">Growing Season *</label>
+                        <select id="growing-season" name="growingSeason" required>
+                            <option value="">Select Season</option>
+                            <option value="kharif">Kharif (Monsoon)</option>
+                            <option value="rabi">Rabi (Winter)</option>
+                            <option value="zaid">Zaid (Summer)</option>
+                            <option value="perennial">Perennial</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Growing Duration (days)</label>
+                        <input type="number" id="duration" name="duration" placeholder="e.g., 120" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="soil-type">Suitable Soil Type</label>
+                        <input type="text" id="soil-type" name="soilType" placeholder="e.g., Loamy, Clay, Sandy">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="water-requirement">Water Requirement</label>
+                        <select id="water-requirement" name="waterRequirement">
+                            <option value="">Select Water Need</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crop-description">Description & Growing Tips</label>
+                        <textarea id="crop-description" name="cropDescription" placeholder="Detailed information about growing conditions, care instructions, common diseases, harvesting tips, etc."></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Photo Section -->
+            <div class="photo-section">
+                <h2 class="section-title">Crop Photos</h2>
+                <div class="photo-upload" onclick="document.getElementById('photo-input').click()">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">Click to upload photos</div>
+                    <div class="upload-hint">or drag and drop images here<br>PNG, JPG up to 5MB each</div>
+                </div>
+                <input type="file" id="photo-input" accept="image/*" multiple>
+                
+                <div class="photo-preview" id="photo-preview"></div>
+            </div>
+        </div>
+
+       
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Saving crop details...</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="#" class="btn btn-primary" onclick="saveCropDetails()">📝 Save Crop Details</a>
+            <a href="#" class="btn btn-secondary" onclick="previewCrop()">👁️ Preview</a>
+            <a href="./dash.html" class="btn btn-secondary">❌ Cancel</a>
+        </div>
+    </div>
+
+    <script>
+        // Photo upload functionality
+        const photoInput = document.getElementById('photo-input');
+        const photoPreview = document.getElementById('photo-preview');
+        const photoUpload = document.querySelector('.photo-upload');
+        let uploadedPhotos = [];
+
+        photoInput.addEventListener('change', handlePhotoUpload);
+
+        // Drag and drop functionality
+        photoUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUpload.classList.add('dragover');
+        });
+
+        photoUpload.addEventListener('dragleave', () => {
+            photoUpload.classList.remove('dragover');
+        });
+
+        photoUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUpload.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        function handlePhotoUpload(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const photoData = {
+                            id: Date.now() + Math.random(),
+                            url: e.target.result,
+                            name: file.name
+                        };
+                        uploadedPhotos.push(photoData);
+                        displayPhoto(photoData);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function displayPhoto(photoData) {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            previewItem.innerHTML = `
+                <img src="${photoData.url}" alt="${photoData.name}">
+                <button class="remove-photo" onclick="removePhoto(${photoData.id})">×</button>
+            `;
+            photoPreview.appendChild(previewItem);
+        }
+
+        function removePhoto(photoId) {
+            uploadedPhotos = uploadedPhotos.filter(photo => photo.id !== photoId);
+            refreshPhotoPreview();
+        }
+
+        function refreshPhotoPreview() {
+            photoPreview.innerHTML = '';
+            uploadedPhotos.forEach(photo => displayPhoto(photo));
+        }
+
+        // Form submission
+        function saveCropDetails() {
+            const form = document.getElementById('crop-form');
+            const formData = new FormData(form);
+            
+            // Validate required fields
+            const cropName = formData.get('cropName');
+            const cropCategory = formData.get('cropCategory');
+            const growingSeason = formData.get('growingSeason');
+            
+            if (!cropName || !cropCategory || !growingSeason) {
+                alert('Please fill in all required fields (Crop Name, Category, Growing Season)');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                alert('Crop details saved successfully! 🌾✅');
+                
+                // Reset form
+                form.reset();
+                uploadedPhotos = [];
+                refreshPhotoPreview();
+            }, 2000);
+        }
+
+        function previewCrop() {
+            const form = document.getElementById('crop-form');
+            const formData = new FormData(form);
+            
+            const cropName = formData.get('cropName') || 'Unnamed Crop';
+            const cropCategory = formData.get('cropCategory') || 'Not specified';
+            const growingSeason = formData.get('growingSeason') || 'Not specified';
+            
+            const previewData = `
+                Crop Name: ${cropName}
+                Category: ${cropCategory}
+                Growing Season: ${growingSeason}
+                Photos: ${uploadedPhotos.length} uploaded
+            `;
+            
+            alert('Crop Preview:\n\n' + previewData);
+        }
+
+        // Sample crop card interactions
+        document.querySelectorAll('.crop-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const cropName = this.querySelector('.crop-name').textContent;
+                const cropSeason = this.querySelector('.crop-season').textContent;
+                
+                // Fill form with sample data
+                document.getElementById('crop-name').value = cropName;
+                document.getElementById('growing-season').value = cropSeason.includes('Kharif') ? 'kharif' : 
+                                                                 cropSeason.includes('Rabi') ? 'rabi' : 
+                                                                 cropSeason.includes('Perennial') ? 'perennial' : '';
+                
+                // Scroll to form
+                document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

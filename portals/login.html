@@ -1,52 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agrigram</title>
-    <link rel="stylesheet" href="./login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agrigram</title>
+  <link rel="stylesheet" href="./login.css">
 </head>
 <body>
-      <div class="container">
-        <div class="header">
-            <h1>🌾Agrigram- Farmer Government Aided Schemes Portal</h1>
-            <p>Empowering Farmers Through Digital Agriculture Solutions</p>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>🌾 Agrigram - Farmer Government Aided Schemes Portal</h1>
+      <p>Empowering Farmers Through Digital Agriculture Solutions</p>
+    </div>
 
-        <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+    <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
 
-        <!-- Authentication Section -->
-        <div id="authSection" class="section active">
-            <div class="login-form">
-                <h2 id="authTitle">Login</h2>
-                <form id="authForm">
-                    <div class="form-group" id="nameGroup" style="display: none;">
-                        <label for="name">Full Name:</label>
-                        <input type="text" id="name" name="name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userType">Login As:</label>
-                        <select id="userType" name="userType" required>
-                            <option value="">Select User Type</option>
-                            <option value="user">Farmer</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                   <a href="./main.html" class="auth-link-btn">Login</a>
-                </form>
-                <div class="auth-toggle">
-                    <a href="./signup.html" id="toggleAuth">Don't have an account? Register</a>
-                </div>
-            </div>
+    <!-- Authentication Section -->
+    <div id="authSection" class="section active">
+      <div class="login-form">
+        <h2 id="authTitle">Login</h2>
+        <form id="authForm">
+          <div class="form-group" id="nameGroup" style="display: none;">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="userType">Login As:</label>
+            <select id="userType" name="userType" required>
+              <option value="">Select User Type</option>
+              <option value="user">Farmer</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <input type="submit" value="Login" class="auth-link-btn" />
+        </form>
+
+        <div class="auth-toggle">
+          <a href="./signup.html" id="toggleAuth">Don't have an account? Register</a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("authForm").addEventListener("submit", function (e) {
+      e.preventDefault(); // prevent form submission
+
+      const userType = document.getElementById("userType").value;
+
+      if (userType === "admin") {
+        window.location.href = "../admin/dash.html"; // change if needed
+      } else if (userType === "user") {
+        window.location.href = "../user/dash.html"; // change if needed
+      } else {
+        alert("Please select a valid user type.");
+      }
+    });
+
+    function logout() {
+      alert("Logged out!");
+      location.reload(); // simple placeholder logout
+    }
+  </script>
 </body>
 </html>

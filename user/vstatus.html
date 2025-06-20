@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📄 Request Status - vStatus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .search-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: fit-content;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(52, 152, 219, 0.3);
+        }
+
+        .status-results {
+            display: none;
+        }
+
+        .status-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .application-id {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-processing {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .progress-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .progress-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e9ecef;
+        }
+
+        .progress-step {
+            position: relative;
+            padding: 15px 0;
+        }
+
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e9ecef;
+        }
+
+        .progress-step.completed::before {
+            background: #28a745;
+        }
+
+        .progress-step.active::before {
+            background: #007bff;
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .step-date {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .feedback-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .feedback-text {
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            display: none;
+        }
+
+        .no-results-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .status-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span>📄</span> Request Status Tracker</h1>
+            <p>Check the approval status of your applied schemes and track progress</p>
+        </div>
+
+        <div class="main-content">
+            <div class="info-box">
+                <strong>📋 Track Your Applications:</strong> Enter your application ID or mobile number to check the status of your scheme applications and view detailed progress updates.
+            </div>
+
+            <div class="search-section">
+                <form class="search-form" id="statusForm">
+                    <div class="form-group">
+                        <label for="applicationId">Application ID</label>
+                        <input type="text" id="applicationId" placeholder="e.g., APP2025001234">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="tel" id="mobileNumber" placeholder="Enter your registered mobile">
+                    </div>
+                    <div class="form-group">
+                        <label for="schemeType">Scheme Type (Optional)</label>
+                        <select id="schemeType">
+                            <option value="">All Schemes</option>
+                            <option value="pmkisan">PM-KISAN</option>
+                            <option value="crop-insurance">Crop Insurance</option>
+                            <option value="soil-health">Soil Health Card</option>
+                            <option value="subsidy">Equipment Subsidy</option>
+                            <option value="loan">Agricultural Loan</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn">🔍 Check Status</button>
+                </form>
+            </div>
+
+            <div class="status-results" id="statusResults">
+                <!-- Sample Status Cards - These will be populated dynamically -->
+            </div>
+
+            <div class="no-results" id="noResults">
+                <div class="no-results-icon">🔍</div>
+                <h3>No Applications Found</h3>
+                <p>Please check your Application ID or Mobile Number and try again.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for demonstration
+        const sampleApplications = [
+            {
+                id: 'APP2025001234',
+                scheme: 'PM-KISAN Scheme',
+                status: 'approved',
+                appliedDate: '2025-01-15',
+                amount: '₹6,000',
+                mobile: '9876543210',
+                progress: [
+                    { title: 'Application Submitted', date: '2025-01-15', completed: true },
+                    { title: 'Document Verification', date: '2025-01-18', completed: true },
+                    { title: 'Field Verification', date: '2025-01-22', completed: true },
+                    { title: 'Approval & Disbursement', date: '2025-01-25', completed: true, active: false }
+                ],
+                feedback: 'Your application has been approved and amount has been credited to your registered bank account.'
+            },
+            {
+                id: 'APP2025005678',
+                scheme: 'Crop Insurance Scheme',
+                status: 'processing',
+                appliedDate: '2025-02-10',
+                amount: '₹15,000',
+                mobile: '9876543210',
+                progress: [
+                    { title: 'Application Submitted', date: '2025-02-10', completed: true },
+                    { title: 'Document Verification', date: '2025-02-12', completed: true },
+                    { title: 'Field Assessment', date: 'In Progress', completed: false, active: true },
+                    { title: 'Final Approval', date: 'Pending', completed: false }
+                ],
+                feedback: 'Field assessment is currently in progress. Our team will visit your farm within 2-3 working days.'
+            },
+            {
+                id: 'APP2025009876',
+                scheme: 'Equipment Subsidy',
+                status: 'pending',
+                appliedDate: '2025-03-01',
+                amount: '₹25,000',
+                mobile: '9876543210',
+                progress: [
+                    { title: 'Application Submitted', date: '2025-03-01', completed: true },
+                    { title: 'Document Verification', date: 'In Progress', completed: false, active: true },
+                    { title: 'Technical Assessment', date: 'Pending', completed: false },
+                    { title: 'Final Approval', date: 'Pending', completed: false }
+                ],
+                feedback: 'Please ensure all required documents are uploaded. Missing documents: Land ownership certificate.'
+            }
+        ];
+
+        document.getElementById('statusForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const applicationId = document.getElementById('applicationId').value.trim();
+            const mobileNumber = document.getElementById('mobileNumber').value.trim();
+            const schemeType = document.getElementById('schemeType').value;
+            
+            if (!applicationId && !mobileNumber) {
+                alert('Please enter either Application ID or Mobile Number');
+                return;
+            }
+            
+            searchApplications(applicationId, mobileNumber, schemeType);
+        });
+
+        function searchApplications(appId, mobile, scheme) {
+            let results = sampleApplications.filter(app => {
+                let matches = true;
+                
+                if (appId && !app.id.toLowerCase().includes(appId.toLowerCase())) {
+                    matches = false;
+                }
+                
+                if (mobile && app.mobile !== mobile) {
+                    matches = false;
+                }
+                
+                if (scheme && !app.scheme.toLowerCase().includes(scheme.toLowerCase())) {
+                    matches = false;
+                }
+                
+                return matches;
+            });
+            
+            displayResults(results);
+        }
+
+        function displayResults(applications) {
+            const resultsContainer = document.getElementById('statusResults');
+            const noResults = document.getElementById('noResults');
+            
+            if (applications.length === 0) {
+                resultsContainer.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            resultsContainer.style.display = 'block';
+            resultsContainer.innerHTML = '';
+            
+            applications.forEach(app => {
+                const statusCard = createStatusCard(app);
+                resultsContainer.appendChild(statusCard);
+            });
+        }
+
+        function createStatusCard(app) {
+            const card = document.createElement('div');
+            card.className = 'status-card';
+            
+            const statusClass = `status-${app.status}`;
+            const statusText = app.status.charAt(0).toUpperCase() + app.status.slice(1);
+            
+            card.innerHTML = `
+                <div class="status-header">
+                    <div class="application-id">${app.id}</div>
+                    <div class="status-badge ${statusClass}">${statusText}</div>
+                </div>
+                
+                <div class="status-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Scheme Name</div>
+                        <div class="detail-value">${app.scheme}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Applied Date</div>
+                        <div class="detail-value">${formatDate(app.appliedDate)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Amount</div>
+                        <div class="detail-value">${app.amount}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Mobile Number</div>
+                        <div class="detail-value">${app.mobile}</div>
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-title">Application Progress</div>
+                    <div class="progress-timeline">
+                        ${app.progress.map(step => `
+                            <div class="progress-step ${step.completed ? 'completed' : ''} ${step.active ? 'active' : ''}">
+                                <div class="step-title">${step.title}</div>
+                                <div class="step-date">${step.date}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                ${app.feedback ? `
+                    <div class="feedback-section">
+                        <div class="feedback-title">📝 Status Update</div>
+                        <div class="feedback-text">${app.feedback}</div>
+                    </div>
+                ` : ''}
+            `;
+            
+            return card;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Demo: Show all applications on page load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                displayResults(sampleApplications);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

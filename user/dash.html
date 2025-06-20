@@ -4,18 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-     <link rel="stylesheet" href="/Agrigram/css/style.css"/>
+    <link rel="stylesheet" href="/Agrigram/css/style.css"/>
 </head>
 <body>
-    <div class="user-dashboard">
-  <h2>Welcome, Farmer</h2>
-  <div class="dashboard-cards">
-    <a href="/view-crops">👁️ View Crop Details</a>
-    <a href="/view-schemes">📃 View Govt Schemes</a>
-    <a href="/apply-scheme">📝 Apply for Scheme</a>
-    <a href="/view-status">📊 View Status</a>
-  </div>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🌾 AgroUser</h1>
+            </div>
+            
+            <div class="role-toggle">
+                <button class="active" onclick="switchRole('admin')">User</button>
+          
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./vcrop.html" class="nav-link">
+                            <span class="nav-icon">🌾</span>
+                           View-Crops
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./vscheme.html" class="nav-link">
+                            <span class="nav-icon">📋</span>
+                             View-Schemes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./ascheme.html" class="nav-link">
+                            <span class="nav-icon">🎯</span>
+                           Apply-Scheme
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./vstatus.html" class="nav-link">
+                            <span class="nav-icon">📄</span>
+                            View-Status
+                        </a>
+                    </li>
+                  
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2 id="page-title">User Dashboard</h2>
+                <div class="user-info">
+                    <div class="user-avatar">U</div>
+                    <div>
+                        <div style="font-weight: 600;">User</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">User</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-crops">245</div>
+                    <div class="stat-label">Total Crops</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="active-schemes">14</div>
+                    <div class="stat-label">Active Schemes</div>
+                </div>
+              
+                <div class="stat-card">
+                    <div class="stat-number" id="total-users">300+</div>
+                    <div class="stat-label">Total Schemes</div>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div class="admin-section">
+                <main class="dashboard">
+                    <a href="./vcrop.html" class="card">
+                        <span class="card-icon">🌾</span>
+                       <div class="card-title">🌾 Crop Details</div>
+<div class="card-description">
+  Submit details about your cultivated crops including crop name, variety, sowing & harvesting dates, and farming methods. Help the government understand your produce and plan better support.
 </div>
+
+                    </a>
+                    
+                   <a href="./vscheme.html" class="card">
+  <span class="card-icon">📝</span>
+  <div class="card-title">📝 View Govt Schemes</div>
+  <div class="card-description">
+    Design and publish new government-aided agriculture schemes for farmers including subsidies, insurance, and crop loans.
+  </div>
+</a>
+
+                    
+    <a href="./ascheme.html" class="card">
+                        <span class="card-icon">🎯</span>
+                        <div class="card-title">Apply for  Schemes</div>
+                        <div class="card-description">Browse government schemes and apply for as many as you want</div>
+                    </a>
+
+               <a href="./vstatus.html" class="card">
+  <span class="card-icon">📄</span>
+  <div class="card-title">📄 Request Status</div>
+  <div class="card-description">
+    Check the approval status of your applied schemes and track progress or feedback from the administration.
+  </div>
+</a>
 
 </body>
 </html>
+

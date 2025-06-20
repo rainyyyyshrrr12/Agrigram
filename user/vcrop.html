@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Crop Details - vCrop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e5e9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span>🌾</span> Crop Details Submission</h1>
+            <p>Help the government understand your produce and plan better support</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-box">
+                <strong>📋 Information Required:</strong> Please provide accurate details about your cultivated crops including crop name, variety, sowing & harvesting dates, and farming methods to help improve agricultural planning and support.
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <strong>✅ Success!</strong> Your crop details have been submitted successfully. Thank you for contributing to better agricultural planning!
+            </div>
+
+            <form id="cropForm">
+                <div class="section-title">
+                    <span>🌱</span> Basic Crop Information
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cropName">Crop Name <span class="required">*</span></label>
+                        <input type="text" id="cropName" name="cropName" required placeholder="e.g., Rice, Wheat, Corn">
+                    </div>
+                    <div class="form-group">
+                        <label for="cropVariety">Crop Variety <span class="required">*</span></label>
+                        <input type="text" id="cropVariety" name="cropVariety" required placeholder="e.g., Basmati, Durum">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="areaSize">Cultivation Area (in acres) <span class="required">*</span></label>
+                        <input type="number" id="areaSize" name="areaSize" step="0.1" min="0" required placeholder="e.g., 5.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="soilType">Soil Type</label>
+                        <select id="soilType" name="soilType">
+                            <option value="">Select soil type</option>
+                            <option value="clay">Clay</option>
+                            <option value="sandy">Sandy</option>
+                            <option value="loamy">Loamy</option>
+                            <option value="silty">Silty</option>
+                            <option value="peaty">Peaty</option>
+                            <option value="chalky">Chalky</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <span>📅</span> Timeline Information
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sowingDate">Sowing Date <span class="required">*</span></label>
+                        <input type="date" id="sowingDate" name="sowingDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="harvestingDate">Expected/Actual Harvesting Date <span class="required">*</span></label>
+                        <input type="date" id="harvestingDate" name="harvestingDate" required>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <span>🚜</span> Farming Methods & Practices
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="farmingMethod">Farming Method <span class="required">*</span></label>
+                        <select id="farmingMethod" name="farmingMethod" required>
+                            <option value="">Select farming method</option>
+                            <option value="organic">Organic Farming</option>
+                            <option value="conventional">Conventional Farming</option>
+                            <option value="integrated">Integrated Farming</option>
+                            <option value="sustainable">Sustainable Farming</option>
+                            <option value="precision">Precision Farming</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="irrigationType">Irrigation Type</label>
+                        <select id="irrigationType" name="irrigationType">
+                            <option value="">Select irrigation type</option>
+                            <option value="drip">Drip Irrigation</option>
+                            <option value="sprinkler">Sprinkler Irrigation</option>
+                            <option value="flood">Flood Irrigation</option>
+                            <option value="furrow">Furrow Irrigation</option>
+                            <option value="rainfed">Rain-fed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="expectedYield">Expected Yield (per acre)</label>
+                    <input type="text" id="expectedYield" name="expectedYield" placeholder="e.g., 25 quintals">
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalInfo">Additional Information / Special Practices</label>
+                    <textarea id="additionalInfo" name="additionalInfo" placeholder="Any special farming techniques, certifications, challenges faced, or additional details you'd like to share..."></textarea>
+                </div>
+
+                <div class="section-title">
+                    <span>👨‍🌾</span> Farmer Information
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="farmerName">Farmer Name <span class="required">*</span></label>
+                        <input type="text" id="farmerName" name="farmerName" required placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number <span class="required">*</span></label>
+                        <input type="tel" id="contactNumber" name="contactNumber" required placeholder="Your phone number">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="district">District <span class="required">*</span></label>
+                        <input type="text" id="district" name="district" required placeholder="Your district">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State <span class="required">*</span></label>
+                        <input type="text" id="state" name="state" required placeholder="Your state">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">
+                    🌾 Submit Crop Details
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cropForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const requiredFields = document.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#e1e5e9';
+                }
+            });
+            
+            if (isValid) {
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Scroll to top to show success message
+                document.querySelector('.container').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+                
+                // Clear form
+                this.reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+            } else {
+                alert('Please fill in all required fields marked with *');
+            }
+        });
+
+        // Set minimum date for sowing date to prevent past dates too far back
+        const today = new Date();
+        const oneYearAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+        document.getElementById('sowingDate').min = oneYearAgo.toISOString().split('T')[0];
+        
+        // Set minimum harvesting date based on sowing date
+        document.getElementById('sowingDate').addEventListener('change', function() {
+            const sowingDate = new Date(this.value);
+            const minHarvestDate = new Date(sowingDate);
+            minHarvestDate.setDate(minHarvestDate.getDate() + 30); // Minimum 30 days growth period
+            
+            document.getElementById('harvestingDate').min = minHarvestDate.toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>

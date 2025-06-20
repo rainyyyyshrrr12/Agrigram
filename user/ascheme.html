@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply for Govt Schemes</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fff7;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2e7d32 0%, #66bb6a 100%);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .scheme-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .scheme-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .scheme-card:hover {
+      transform: scale(1.02);
+    }
+
+    .scheme-card h3 {
+      margin-top: 0;
+      color: #2e7d32;
+    }
+
+    .scheme-card p {
+      font-size: 14px;
+      margin: 10px 0 20px;
+    }
+
+    .scheme-card a {
+      text-decoration: none;
+      background-color: #2e7d32;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .scheme-card a:hover {
+      background-color: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌾 Apply for Government Schemes</h1>
+    <p>Empowering Indian Farmers with Subsidies, Insurance, and Support</p>
+  </header>
+
+  <main class="scheme-container" id="schemeContainer">
+    <!-- Scheme cards will appear here -->
+  </main>
+
+  <script>
+    const schemes = [
+      {
+        title: "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+        description: "₹6,000/year financial support directly to small and marginal farmers in 3 installments."
+      },
+      {
+        title: "Kisan Credit Card (KCC)",
+        description: "Credit facility for farmers at subsidized interest rates for crop cultivation and other needs."
+      },
+      {
+        title: "PM Fasal Bima Yojana",
+        description: "Crop insurance scheme covering losses due to natural calamities, pests, and diseases."
+      },
+      {
+        title: "Soil Health Card Scheme",
+        description: "Provides detailed report on soil health and fertilizer recommendations for better productivity."
+      },
+      {
+        title: "eNAM - National Agriculture Market",
+        description: "Online trading platform for agricultural commodities to help farmers get fair prices."
+      },
+      {
+        title: "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
+        description: "Ensures water availability for all farms and promotes water-use efficiency."
+      },
+      {
+        title: "Rashtriya Krishi Vikas Yojana (RKVY)",
+        description: "Supports agriculture development plans and innovations at state-level for farmers."
+      },
+      {
+        title: "Paramparagat Krishi Vikas Yojana (PKVY)",
+        description: "Promotes organic farming and certification to improve soil health and export potential."
+      },
+      {
+        title: "National Mission on Sustainable Agriculture (NMSA)",
+        description: "Focus on climate-resilient agriculture and sustainable farming techniques."
+      },
+      {
+        title: "Agriculture Infrastructure Fund",
+        description: "Medium to long-term debt financing for post-harvest infrastructure and community farming assets."
+      },
+      {
+        title: "PM Atmanirbhar Krishi Infrastructure",
+        description: "Encourages building warehouses, cold storage, grading units and supply chain solutions."
+      },
+      {
+        title: "Farm Mechanization Scheme",
+        description: "Subsidies for modern agricultural tools, machinery, and custom hiring centers."
+      },
+      {
+        title: "Livestock Insurance Scheme",
+        description: "Insurance coverage for cattle, goats, sheep and other livestock owned by farmers."
+      },
+      {
+        title: "National Beekeeping & Honey Mission",
+        description: "Promotes beekeeping for supplementary income and pollination support to farmers."
+      }
+    ];
+
+    const container = document.getElementById("schemeContainer");
+
+    schemes.forEach((scheme) => {
+      const card = document.createElement("div");
+      card.className = "scheme-card";
+      card.innerHTML = `
+        <h3>${scheme.title}</h3>
+        <p>${scheme.description}</p>
+        <a href="#" onclick="applyAlert('${scheme.title}')">Apply</a>
+      `;
+      container.appendChild(card);
+    });
+
+    function applyAlert(schemeName) {
+      event.preventDefault();
+      alert(`✅ You have successfully applied for "${schemeName}".`);
+    }
+  </script>
+
+</body>
+</html>
